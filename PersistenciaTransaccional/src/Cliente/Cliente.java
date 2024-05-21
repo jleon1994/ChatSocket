@@ -202,8 +202,20 @@ public class Cliente {
 		 * send the message to all the clients
 		 */
 		
-		//**ACCION CUANDO LE DE CLICK A ENVIAR**//
+		
+		
+		
+		
+		
 		sendButton.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        enviarMensaje();
+		    }
+		});
+		
+		//**ACCION CUANDO LE DE CLICK A ENVIAR**//
+		
+		/*sendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!textoMensaje.getText().equals("")) {
 					try {
@@ -214,8 +226,10 @@ public class Cliente {
 					}
 					textoMensaje.setText("");
 				}
+				
+				enviarMensaje();
 			}
-		});
+		});*/
 		globalChat.setViewportView(areaChat);
 		areaMensaje.setViewportView(textoMensaje);
 		leftPanel.setLayout(new GridBagLayout());
@@ -306,6 +320,32 @@ public class Cliente {
 	public JFrame getFrame() {
 		return frame;
 	}
+	
+	
+	//* Método para enviar el mensaje y verificar si es "chao"
+			private void enviarMensaje() {
+			    String mensaje = textoMensaje.getText().trim();
+			    if (!mensaje.isEmpty()) {
+			        try {
+			            // Verificar si el mensaje es "chao"
+			            if (mensaje.equalsIgnoreCase("chao")) {
+			                // Cerrar la ventana y desconectarse del servidor
+			                frame.dispose();
+			                out.writeObject(new Mensajes("chao", TipoMensajes.CLIENT_GLOBAL_MESSAGE));
+			                out.flush();
+			                socket.close();
+			                System.exit(0);
+			            } else {
+			                // Enviar el mensaje normalmente
+			                out.writeObject(new Mensajes(mensaje, TipoMensajes.CLIENT_GLOBAL_MESSAGE));
+			                out.flush();
+			            }
+			        } catch (IOException ioe) {
+			            System.out.println("Error establishing connection: " + ioe.getMessage());
+			        }
+			        textoMensaje.setText("");
+			    }
+			}
 
 	/*
 	 * global variables
