@@ -179,9 +179,8 @@ public class Cliente {
 		 */
 		new Thread(new AsistenteCliente(this)).start();
 
-		/*
-		 * set global chatting GUI
-		 */
+ 
+		//**GUI DEL CLIENTE**//
 
 		// **TITULO DE LA VENTANA DEL GUI DEL CLIENTE(INDICA A QUE SERVIDOR SE ENCUENTRA
 		frame.setTitle("Conectado al servidor: " + socket.getRemoteSocketAddress().toString());
